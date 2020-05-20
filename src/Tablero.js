@@ -10,9 +10,9 @@ class Tablero extends Component {
                     <Celula
                         arreglo={this.props.arreglo}
                         estado={celula.estado}
-                        x={celula.x}
-                        y={celula.y}
-                        key={celula.id}                 
+                        key={celula.id}  
+                        vecinos={celula.vecinos}
+                        estadoSig={celula.estadoSig}               
                     />
                 )
                 

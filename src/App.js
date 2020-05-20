@@ -15,21 +15,21 @@ class App extends Component {
     super(props);
     this.state = estadoInicial();
   }
+
   render() {
     return (
       <div className="App">
         <Tablero
           arreglo={this.state.arreglo}
-        //seleccionarVecinos={() => this.seleccionarVecinos()}
         />
         {this.seleccionarVecinos()}
+        {this.reglas()}
       </div>
     );
   }
 
   seleccionarVecinos() {
     const myArray = this.state.arreglo;
-    
     myArray.map((celula) => {
       var vecino;
       var coordX = celula.x;
@@ -40,15 +40,39 @@ class App extends Component {
           if (x !== 0 || y !== 0) {
             coordX = (coordX + x);
             coordY = (coordY + y);
-            if(coordY > 0 && coordY < 20 && coordX > 0 && coordX < 20)
-            {vecino = myArray.find(x => x.id === coordX + "." + coordY);
-            numVecinos += vecino.estado;}
+            if (coordY > 0 && coordY < 20 && coordX > 0 && coordX < 20) {
+              vecino = myArray.find(x => x.id === coordX + "." + coordY);
+              numVecinos += vecino.estado;
+            }
           }
         }
       }
       celula.vecinos = numVecinos;
     })
 
+  }
+
+  reglas() {
+    const myArray = this.state.arreglo;
+    myArray.map((celula) => {
+      if (celula.estado === 0) {
+        if (celula.vecinos === 3) {
+          celula.estadoSig = 1;
+        }
+        else {
+          celula.estadoSig = 0;
+        }
+
+      }
+      else {
+        if (celula.vecinos === 2 || celula.vecinos === 3) {
+          celula.estadoSig = 1;
+        }
+        else {
+          celula.estadoSig = 0;
+        }
+      }
+    })
   }
 }
 

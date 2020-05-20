@@ -6,8 +6,8 @@ class Celula extends Component {
         return (
             <div className={"celula celula" + this.props.estado}
                 key={this.props.id}>
-                {this.props.x}
-                {this.props.y}
+                {this.props.vecinos}
+                {this.props.estadoSig}
             </div>
         );
     }
