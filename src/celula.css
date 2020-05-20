@@ -1,8 +1,10 @@
 .celula0{
     background-color: black;
+    color:white;
   }
   .celula1{
     background-color: white;
+    color: black;
   }
   .celula{
     width:30px;

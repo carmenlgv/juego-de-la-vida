@@ -14,7 +14,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = estadoInicial();
+
   }
+
 
   render() {
     return (
@@ -24,6 +26,7 @@ class App extends Component {
         />
         {this.seleccionarVecinos()}
         {this.reglas()}
+
       </div>
     );
   }
@@ -32,18 +35,16 @@ class App extends Component {
     const myArray = this.state.arreglo;
     myArray.map((celula) => {
       var vecino;
-      var coordX = celula.x;
-      var coordY = celula.y;
+      var coordX = 0;
+      var coordY = 0;
       var numVecinos = 0;
       for (var x = -1; x <= 1; x++) {
         for (var y = -1; y <= 1; y++) {
           if (x !== 0 || y !== 0) {
-            coordX = (coordX + x);
-            coordY = (coordY + y);
-            if (coordY > 0 && coordY < 20 && coordX > 0 && coordX < 20) {
-              vecino = myArray.find(x => x.id === coordX + "." + coordY);
-              numVecinos += vecino.estado;
-            }
+            coordX = (celula.x + x + 20) % 20;
+            coordY = (celula.y + y + 20) % 20;
+            vecino = myArray.find(x => x.id === coordX + "." + coordY);
+            numVecinos += vecino.estado;
           }
         }
       }
@@ -72,6 +73,12 @@ class App extends Component {
           celula.estadoSig = 0;
         }
       }
+    })
+  }
+  cambioDeEstado(){
+    const myArray = this.state.arreglo;
+    myArray.map((celula) => {  
+      celula.estado = celula.estadoSig;
     })
   }
 }
