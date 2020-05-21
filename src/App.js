@@ -14,26 +14,23 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = estadoInicial();
-
   }
-
-
-  render() {
-    return (
-      <div className="App">
-        <Tablero
-          arreglo={this.state.arreglo}
-        />
-        {this.seleccionarVecinos()}
-        {this.reglas()}
-
-      </div>
-    );
+  tick() {
+    this.setState(this.seleccionarVecinos());
+  }
+  componentDidMount() {
+    this.interval = setInterval(() => this.tick(), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   seleccionarVecinos() {
-    const myArray = this.state.arreglo;
-    myArray.map((celula) => {
+    let estadoSig;
+    let celulasTemp=[];
+    console.log("seleccionando vecinos");
+    let celulas = this.state.arreglo;
+    celulas.map((celula) => {
       var vecino;
       var coordX = 0;
       var coordY = 0;
@@ -43,43 +40,52 @@ class App extends Component {
           if (x !== 0 || y !== 0) {
             coordX = (celula.x + x + 20) % 20;
             coordY = (celula.y + y + 20) % 20;
-            vecino = myArray.find(x => x.id === coordX + "." + coordY);
+            vecino = celulas.find(x => x.id === coordX + "." + coordY);
             numVecinos += vecino.estado;
           }
         }
       }
-      celula.vecinos = numVecinos;
+      estadoSig=this.reglas(celula.estado,numVecinos);
+      celula.estadoSig=estadoSig;
     })
-
+    celulasTemp=celulas;
+    return(this.cambioDeEstado(celulasTemp));
   }
 
-  reglas() {
-    const myArray = this.state.arreglo;
-    myArray.map((celula) => {
-      if (celula.estado === 0) {
-        if (celula.vecinos === 3) {
-          celula.estadoSig = 1;
+  reglas(estado,numVecinos) {
+    var estadoSig=0;
+      if (estado === 0) {
+        if (numVecinos === 3) {
+          estadoSig = 1;
         }
         else {
-          celula.estadoSig = 0;
+          estadoSig = 0;
         }
-
       }
       else {
-        if (celula.vecinos === 2 || celula.vecinos === 3) {
-          celula.estadoSig = 1;
+        if (numVecinos === 2 || numVecinos === 3) {
+          estadoSig = 1;
         }
         else {
-          celula.estadoSig = 0;
+          estadoSig = 0;
         }
       }
-    })
+      return estadoSig;
   }
-  cambioDeEstado(){
-    const myArray = this.state.arreglo;
-    myArray.map((celula) => {  
+  cambioDeEstado(celulasTemp){
+    celulasTemp.map((celula) => {  
       celula.estado = celula.estadoSig;
     })
+    return celulasTemp;
+  }
+  render() {
+    return (
+      <div className="App">
+        <Tablero
+          arreglo={this.state.arreglo}
+        />         
+      </div>
+    );
   }
 }
 

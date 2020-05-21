@@ -8,11 +8,8 @@ class Tablero extends Component {
             <div className="tablero">{
                 this.props.arreglo.map((celula) =>
                     <Celula
-                        arreglo={this.props.arreglo}
                         estado={celula.estado}
-                        key={celula.id}  
-                        vecinos={celula.vecinos}
-                        estadoSig={celula.estadoSig}               
+                        key={celula.id}                 
                     />
                 )
                 
