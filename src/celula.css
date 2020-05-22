@@ -1,19 +1,17 @@
 .celula0{
     background-color: black;
-    color:white;
   }
   .celula1{
     background-color: white;
-    color: black;
   }
   .celula{
-    width:30px;
-    height:30px;
+    width:10px;
+    height:10px;
   }
   .tablero{
     display:flex;
     flex-wrap:wrap;
-    width: 600px;
-    height: 600px;
+    width: 500px;
+    height: 500px;
     margin: 0;
   }

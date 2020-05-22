@@ -9,12 +9,10 @@ class Tablero extends Component {
                 this.props.arreglo.map((celula) =>
                     <Celula
                         estado={celula.estado}
-                        key={celula.id}                 
+                        key={celula.id}
                     />
                 )
-                
             }
-            
             </div>
         );
     }
